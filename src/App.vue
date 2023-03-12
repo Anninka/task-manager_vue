@@ -7,11 +7,15 @@
     </header>
     <main class="container">
       <div class="task-desk">
-        <div class="task-list">
-          <div class="task-list__header">Создана</div>
+        <div 
+        class="task-list"
+        v-for="(tasks, status) in groupedTasks"
+        :key="status"
+        >
+          <div class="task-list__header">{{ status }}</div>
           <div 
           class="task-item"
-          :key="task"
+          :key="task.id"
           v-for="task in tasks"
           >
             <p class="">Название: {{ task.title }}</p>
@@ -22,12 +26,6 @@
             <p class="">Затрачено времени: {{ task.time }}</p>
             <p class="">Состояние: {{ task.status }}</p>
           </div>
-        </div>
-        <div class="task-list">
-          <div class="task-list__header">В работе</div>
-        </div>
-        <div class="task-list">
-          <div class="task-list__header">Завершена</div>
         </div>
       </div>
     </main>
@@ -55,6 +53,7 @@ export default {
           description: "Добавить функционал удаления задач из колонки 'Завершена'",
           author: "Терентьева",
           date: "13.03.2023 10:10",
+          status: "В работе",
         },
         {
           id: 2, 
@@ -62,6 +61,7 @@ export default {
           description: "Добавить возможность перетаскивать задачи между колонками создана/в работе/завершена",
           author: "Петров",
           date: "12.03.2023 12:55",
+          status: "Завершена",
         },
         {
           id: 3, 
@@ -69,6 +69,7 @@ export default {
           description: "Реализовать добавление новых задач в таск-менеджере по шаблону. Все поля обязательные.",
           author: "Иванов",
           date: "10.03.2023 11:33",
+          status: "В работе",
         },
         {
           id: 4, 
@@ -76,14 +77,46 @@ export default {
           description: "Необходимо провести следующие операции",
           author: "Сидорова",
           date: "09.03.2023 10:05",
+          status: "Завершена",
+        },
+        {
+          id: 5, 
+          title: "Разделить проект на компоненты", 
+          description: "Разделить проект на несколько компонентов по смыслу",
+          author: "Рукавишников",
+          date: "13.03.2023 11:48",
+          status: "Создана",
+        },
+        {
+          id: 6, 
+          title: "Возможность менять оформление", 
+          description: "Реализовать возможность менять цветовую гамму, как минимум 3 варианта",
+          author: "Морозова",
+          date: "13.03.2023 12:07",
+          status: "В работе",
         },
       ],
+      statusId: {'Создана': 0, 'В работе': 1, 'Завершена': 2},
     }
   },
+  computed: {
+    //Создает копию исходного массива и сортирует ее по статусу. Затем создает объект с массивами по кол-ву вариантов свойства status. В каждом массиве - объекты с одинаковыми значениями status. 
+    groupedTasks() {
+      const sortTasks = [...this.tasks].sort((a, b) => this.statusId[a.status] - this.statusId[b.status]);
+      return sortTasks.reduce((groups, task) => {
+        const status = task.status;
+        if (!groups[status]) {
+          groups[status] = [];
+        }
+        groups[status].push(task);
+        return groups;
+      }, {});
+    }
+  },  
 }
 </script>
 
-<style>
+<style lang='scss'>
 * {
   margin: 0;
   padding: 0;

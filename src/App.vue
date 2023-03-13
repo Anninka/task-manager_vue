@@ -21,9 +21,9 @@
             <p class="task-item__title">Название: <span>{{ task.title }}</span></p>
             <p class="task-item__title">Описание: <span>{{ task.description }}</span></p>
             <p class="task-item__title">Автор: <span>{{ task.author }}</span></p>
-            <p class="task-item__title">Дата создания: <span>{{ task.date }}</span></p>
-            <p class="task-item__title">Взяли в работу: <span>{{ task.atwork }}</span></p>
-            <p class="task-item__title">Затрачено времени: <span>{{ }}h</span></p>
+            <p class="task-item__title">Дата создания: <span>{{ new Date(task.date).toLocaleString() }}</span></p>
+            <p class="task-item__title" v-if="task.status !== 'Создана'">Взяли в работу: <span>{{ new Date(task.atwork).toLocaleString()}}</span></p>
+            <p class="task-item__title" v-if="task.status !== 'Создана'">Затрачено времени: <span>{{ getWorkTime(task) }}</span></p>
             <p class="task-item__title">Состояние: <span>{{ task.status }}</span></p>
           </div>
         </div>
@@ -49,73 +49,77 @@ export default {
       tasks: [
         {
           id: 1, 
-          title: "Удаление выполненных задач", 
-          description: "Добавить функционал удаления задач из колонки 'Завершена'",
-          author: "Терентьева",
-          date: "13.03.2023 10:10",
-          atwork: "13.03.2023 11:10",
-          status: "В работе",
+          title: 'Удаление выполненных задач', 
+          description: 'Добавить функционал удаления задач из колонки "Завершена"',
+          author: 'Терентьева',
+          date: '2023-03-13T10:10:00',
+          atwork: '2023-03-13T11:10:00',
+          done: '',
+          status: 'В работе',
         },
         {
           id: 2, 
-          title: "Перетаскивание задач", 
-          description: "Добавить возможность перетаскивать задачи между колонками создана/в работе/завершена",
-          author: "Петров",
-          date: "12.03.2023 12:55",
-          atwork: "12.03.2023 13:20",
-          status: "Завершена",
+          title: 'Перетаскивание задач', 
+          description: 'Добавить возможность перетаскивать задачи между колонками создана/в работе/завершена',
+          author: 'Петров',
+          date: '2023-03-12T12:55:00',
+          atwork: '',
+          done: '2023-03-13T17:46:00',
+          status: 'Создана',
         },
         {
           id: 3, 
-          title: "Добавление задач в таск-менеджер", 
-          description: "Реализовать добавление новых задач в таск-менеджере по шаблону. Все поля обязательные.",
-          author: "Иванов",
-          date: "10.03.2023 11:33",
-          atwork: "10.03.2023 12:06",
-          status: "В работе",
+          title: 'Добавление задач в таск-менеджер', 
+          description: 'Реализовать добавление новых задач в таск-менеджере по шаблону. Все поля обязательные.',
+          author: 'Иванов',
+          date: '2023-03-10T09:00:00',
+          atwork: '2023-03-10T10:12:00',
+          done: '',
+          status: 'В работе',
         },
         {
           id: 4, 
-          title: "Создание новой карточки", 
-          description: "Необходимо провести следующие операции",
-          author: "Сидорова",
-          date: "09.03.2023 10:05",
-          atwork: "09.03.2023 10:10",
-          status: "Завершена",
+          title: 'Создание новой карточки', 
+          description: 'Необходимо провести следующие операции',
+          author: 'Сидорова',
+          date: '2023-03-09T10:05:00',
+          atwork: '2023-03-09T10:10:00',
+          done: '2023-03-15T11:55:00',
+          status: 'Завершена',
         },
         {
           id: 5, 
-          title: "Разделить проект на компоненты", 
-          description: "Разделить проект на несколько компонентов по смыслу",
-          author: "Рукавишников",
-          date: "13.03.2023 11:48",
-          atwork: "",
-          status: "Создана",
+          title: 'Разделить проект на компоненты', 
+          description: 'Разделить проект на несколько компонентов по смыслу',
+          author: 'Рукавишников',
+          date: '2023-03-12T11:48:00',
+          atwork: '',
+          status: 'Создана',
         },
         {
           id: 6, 
-          title: "Возможность менять оформление", 
-          description: "Реализовать возможность менять цветовую гамму, как минимум 3 варианта",
-          author: "Морозова",
-          date: "13.03.2023 12:07",
-          atwork: "13.03.2023 12:10",
-          status: "В работе",
+          title: 'Возможность менять оформление', 
+          description: 'Реализовать возможность менять цветовую гамму, как минимум 3 варианта',
+          author: 'Морозова',
+          date: '2023-03-13T12:07:00',
+          atwork: '2023-03-13T12:10:00',
+          status: 'В работе',
         },
         {
           id: 7, 
-          title: "Придумать содержимое задач", 
-          description: "Придумать названия и описания задач для тестирования таск-менеджера. А то у меня уже фантазия заканчивается.",
-          author: "Терентьева",
-          date: "13.03.2023 12:10",
-          atwork: "13.03.2023 12:20",
-          status: "В работе",
+          title: 'Придумать содержимое задач', 
+          description: 'Придумать названия и описания задач для тестирования таск-менеджера. А то у меня уже фантазия заканчивается.',
+          author: 'Терентьева',
+          date: '2023-03-16T12:12:00',
+          atwork: '2023-03-16T12:52:00',
+          status: 'В работе',
         },
       ],
       statusId: {'Создана': 0, 'В работе': 1, 'Завершена': 2},
     }
   },
   computed: {
-    // Создает копию исходного массива и сортирует ее по статусу. Затем создает объект с массивами по кол-ву вариантов свойства status. В каждом массиве - объекты с одинаковыми значениями status. 
+    //Создает копию исходного массива и сортирует ее по статусу. Затем создает объект с массивами по кол-ву вариантов свойства status. В каждом массиве - объекты с одинаковыми значениями status. 
     groupedTasks() {
       const sortTasks = [...this.tasks].sort((a, b) => this.statusId[a.status] - this.statusId[b.status]);
       return sortTasks.reduce((groups, task) => {
@@ -126,12 +130,24 @@ export default {
         groups[status].push(task);
         return groups;
       }, {});
+    },
+  },
+  methods: {
+    //Функция высчитывает затраченное время на задачу в зависимости от её состояния.
+    getWorkTime(obj) {
+      if (obj.status === 'В работе') {
+        return `${Math.floor((new Date() - new Date(obj.atwork))/(1000*60*60))} ч.`
+      } else if (obj.status === 'Завершена') {
+        return `${Math.floor((new Date(obj.done) - new Date(obj.atwork))/(1000*60*60))} ч.`
+      }
     }
-  },  
+  },
 }
 </script>
 
-<style lang='scss'>
+<style lang="scss">
+@import "./assets/style/variables.scss";
+
 * {
   margin: 0;
   padding: 0;
@@ -139,7 +155,7 @@ export default {
 }
 
 #app {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Helvetica", "Arial", sans-serif;
 }
 
 .page {
@@ -157,12 +173,12 @@ export default {
 
 .page-header {
   padding: 10px 40px;
-  background-color: #6296a4;
-  color: #ffffff;
+  background-color: $primary-darker;
+  color: $base-white;
 }
 
 .page-main {
-  background-color: #ccdadd;
+  background-color: $base-primary;
 }
 
 .task-desk {
@@ -176,7 +192,7 @@ export default {
 .page-footer {
   padding: 10px 40px;
   text-align: right;
-  background-color: #ccdadd;
+  background-color: $base-primary;
 }
 
 .page-footer_text {
@@ -186,7 +202,7 @@ export default {
 
 .task-list {
   padding: 0 20px;
-  background-color: #a1c2cb;
+  background-color: $base-secondary;
   border-radius: 6px;
   overflow: auto;
 }
@@ -196,13 +212,13 @@ export default {
   padding: 10px 0;
   font-size: 20px;
   line-height: 24px;
-  background-color: #a1c2cb;
+  background-color: $base-secondary;
 }
 
 .task-item {
   margin-bottom: 20px;
   padding: 10px;
-  background-color: white;
+  background-color: $base-white;
   border-radius: 5px;
 }
 
@@ -223,7 +239,7 @@ export default {
 /* Стили ползунка */
 .task-list {
   scrollbar-width: thin;
-  scrollbar-color: #6296a4 #e8f3f5;
+  scrollbar-color: $primary-darker $primary-light;
 }
 
 /* для Chrome/Edge/Safari */
@@ -233,11 +249,11 @@ export default {
 }
 .task-list::-webkit-scrollbar-track {
   margin-top: 44px;
-  background: #e8f3f5;
+  background: $primary-light;
 }
 .task-list::-webkit-scrollbar-thumb {
   height: 50px;
-  background-color: #6296a4;
+  background-color: $primary-darker;
   border-radius: 5px;
 }
 </style>

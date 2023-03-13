@@ -7,26 +7,8 @@
     </header>
     <main class="page-main">
       <div class="task-desk container">
-        <div 
-        class="task-list"
-        v-for="(tasks, status) in groupedTasks" 
-        :key="status"
-        >
-          <div class="task-list__header">{{ status}}</div>
-          <div 
-          class="task-item"
-          :key="task.id"
-          v-for="task in tasks"
-          >
-            <p class="task-item__title">Название: <span>{{ task.title }}</span></p>
-            <p class="task-item__title">Описание: <span>{{ task.description }}</span></p>
-            <p class="task-item__title">Автор: <span>{{ task.author }}</span></p>
-            <p class="task-item__title">Дата создания: <span>{{ new Date(task.date).toLocaleString() }}</span></p>
-            <p class="task-item__title" v-if="task.status !== 'Создана'">Взяли в работу: <span>{{ new Date(task.atwork).toLocaleString()}}</span></p>
-            <p class="task-item__title" v-if="task.status !== 'Создана'">Затрачено времени: <span>{{ getWorkTime(task) }}</span></p>
-            <p class="task-item__title">Состояние: <span>{{ task.status }}</span></p>
-          </div>
-        </div>
+        <task-list :tasks="tasks" :groupedTasks="groupedTasks">
+        </task-list>
       </div>
     </main>
     <footer class="page-footer">
@@ -39,10 +21,11 @@
 </template>
 
 <script>
+import TaskList from './components/TaskList.vue';
 
 export default {
   components: {
-
+    TaskList, 
   },
   data() {
     return {
@@ -132,16 +115,6 @@ export default {
       }, {});
     },
   },
-  methods: {
-    //Функция высчитывает затраченное время на задачу в зависимости от её состояния.
-    getWorkTime(obj) {
-      if (obj.status === 'В работе') {
-        return `${Math.floor((new Date() - new Date(obj.atwork))/(1000*60*60))} ч.`
-      } else if (obj.status === 'Завершена') {
-        return `${Math.floor((new Date(obj.done) - new Date(obj.atwork))/(1000*60*60))} ч.`
-      }
-    }
-  },
 }
 </script>
 
@@ -198,62 +171,5 @@ export default {
 .page-footer_text {
   font-size: 16px;
   line-height: 20px;
-}
-
-.task-list {
-  padding: 0 20px;
-  background-color: $base-secondary;
-  border-radius: 6px;
-  overflow: auto;
-}
-.task-list__header {
-  position: sticky;
-  top: 0;
-  padding: 10px 0;
-  font-size: 20px;
-  line-height: 24px;
-  background-color: $base-secondary;
-}
-
-.task-item {
-  margin-bottom: 20px;
-  padding: 10px;
-  background-color: $base-white;
-  border-radius: 5px;
-}
-
-.task-item__title {
-  margin-bottom: 5px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 600;
-}
-
-.task-item span {
-  margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 18px;
-  font-weight: 500;
-}
-
-/* Стили ползунка */
-.task-list {
-  scrollbar-width: thin;
-  scrollbar-color: $primary-darker $primary-light;
-}
-
-/* для Chrome/Edge/Safari */
-.task-list::-webkit-scrollbar {
-
-  width: 12px;
-}
-.task-list::-webkit-scrollbar-track {
-  margin-top: 44px;
-  background: $primary-light;
-}
-.task-list::-webkit-scrollbar-thumb {
-  height: 50px;
-  background-color: $primary-darker;
-  border-radius: 5px;
 }
 </style>

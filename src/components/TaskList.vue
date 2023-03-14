@@ -4,8 +4,8 @@
   v-for="(taskGroups, status) in groupedTasks" 
   :key="status"
   >
-  <div class="task-list__header">{{ status }}</div>
-  <task-item :taskGroups="taskGroups"></task-item>
+    <div class="task-list__header">{{ status }}</div>
+    <task-item :taskGroups="taskGroups"></task-item>
   </div>
 </template>
 

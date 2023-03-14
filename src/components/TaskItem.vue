@@ -1,17 +1,17 @@
 <template>
   <div 
-    class="task-item"
-    :key="task.id"
-    v-for="task in taskGroups"
-    >
-      <p class="task-item__title">Название: <span>{{ task.title }}</span></p>
-      <p class="task-item__title">Описание: <span>{{ task.description }}</span></p>
-      <p class="task-item__title">Автор: <span>{{ task.author }}</span></p>
-      <p class="task-item__title">Дата создания: <span>{{ new Date(task.date).toLocaleString() }}</span></p>
-      <p class="task-item__title" v-if="task.status !== 'Создана'">Взяли в работу: <span>{{ new Date(task.atwork).toLocaleString()}}</span></p>
-      <p class="task-item__title" v-if="task.status !== 'Создана'">Затрачено времени: <span>{{ getWorkTime(task) }}</span></p>
-      <p class="task-item__title">Состояние: <span>{{ task.status }}</span></p>
-    </div>
+  class="task-item"
+  :key="task.id"
+  v-for="task in taskGroups"
+  >
+    <p class="task-item__text">Название: <span>{{ task.title }}</span></p>
+    <p class="task-item__text">Описание: <span>{{ task.description }}</span></p>
+    <p class="task-item__text">Автор: <span>{{ task.author }}</span></p>
+    <p class="task-item__text">Дата создания: <span>{{ new Date(task.date).toLocaleString() }}</span></p>
+    <p class="task-item__text" v-if="task.status !== 'Создана'">Взяли в работу: <span>{{ new Date(task.atwork).toLocaleString()}}</span></p>
+    <p class="task-item__text" v-if="task.status !== 'Создана'">Затрачено времени: <span>{{ getWorkTime(task) }}</span></p>
+    <p class="task-item__text">Состояние: <span>{{ task.status }}</span></p>
+  </div>
 </template>
 
 <script>
@@ -45,7 +45,7 @@ export default {
   border-radius: 5px;
 }
 
-.task-item__title {
+.task-item__text {
   margin-bottom: 5px;
   font-size: 14px;
   line-height: 18px;

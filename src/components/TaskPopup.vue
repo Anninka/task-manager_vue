@@ -8,22 +8,23 @@
 
         <input
         class="task-popup__input" 
-        type="text" placeholder="Название" minlength="5" maxlength="100"
+        type="text" placeholder="* Название" minlength="5" maxlength="100"
         v-model="task.title"
         >
 
         <textarea 
         class="task-popup__area" 
-        placeholder="Описание" rows="8" minlength="20" maxlength="600"
+        placeholder="* Описание" rows="8" minlength="20" maxlength="600"
         v-model="task.description"
         ></textarea>
 
         <input 
         class="task-popup__input" 
-        type="text" placeholder="Автор" minlength="2" maxlength="50"
+        type="text" placeholder="* Автор" minlength="2" maxlength="50"
         v-model="task.author"
         >
 
+        <p class="task-popup__note">* Все поля обязательные для заполнения</p>
         <button class="task-popup__button" @click="createTask">Создать</button>
       </form>
     </div>
@@ -60,7 +61,10 @@ export default {
     createTask() {
       if (this.task.title === '' || this.task.description === '' || this.task.author === '') {
         this.formError = 'Заполните все поля!'
+      } else if (this.task.title.length < 5 || this.task.description.length < 20 || this.task.author.length < 2) {
+        this.formError = 'Минимум 5 символов для названия, 20 для описания и 2 для автора'
       } else {
+        this.formError = ''
         this.task.id = Date.now();
         this.task.date = new Date();
         this.task.status = 'Создана';
@@ -136,13 +140,18 @@ export default {
   resize: none;
 }
 
+.task-popup__note {
+  margin-top: 10px;
+  font-size: 12px;
+}
+
 .task-popup__button {
   align-self: flex-end;
   margin-top: 10px;
-  padding: 10px 15px;
+  padding: 10px 25px;
 
   font-family: "Helvetica", "Arial", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
 
   background: none;
   border: 1px solid $primary-darker;

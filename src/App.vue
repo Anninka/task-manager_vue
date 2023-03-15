@@ -137,11 +137,18 @@ export default {
     createTask(task) {
       this.tasks.push(task);
       this.taskVisible = false;
+      localStorage.setItem('tasks', JSON.stringify(this.tasks));
     },
     //Функция делает попам видимым
     showPopup() {
       this.taskVisible = true;
     },
+  },
+  mounted() {
+    const data = localStorage.getItem('tasks');
+    if (data) {
+      this.tasks = JSON.parse(data);
+    }
   }
 }
 </script>
@@ -207,7 +214,7 @@ export default {
   padding: 10px 15px;
 
   font-family: "Helvetica", "Arial", sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: $base-white;
 
   background: none;

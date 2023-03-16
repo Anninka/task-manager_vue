@@ -47,13 +47,13 @@ export default {
   background-color: $base-secondary;
 }
 
-/* Стили ползунка */
+// Стили ползунка 
 .task-list {
   scrollbar-width: thin;
   scrollbar-color: $primary-darker $primary-light;
 }
 
-/* для Chrome/Edge/Safari */
+// для Chrome/Edge/Safari
 .task-list::-webkit-scrollbar {
 
   width: 12px;

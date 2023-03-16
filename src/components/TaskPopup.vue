@@ -33,7 +33,6 @@
 
 <script>
 export default {
-  name: 'TaskPopup',
   props: {
     show: {
       type: Boolean,

@@ -133,7 +133,7 @@ export default {
     },
   },
   methods: {
-    //Функция добавляет новую задачу к массиву задач и закрывает попап
+    //Функция добавляет новую задачу к массиву задач, закрывает попап и добавляет данные задачи в local storage
     createTask(task) {
       this.tasks.push(task);
       this.taskVisible = false;
@@ -144,8 +144,10 @@ export default {
       this.taskVisible = true;
     },
   },
+  //Используем mounted для получения данных из local storage
   mounted() {
     const data = localStorage.getItem('tasks');
+    //Только если в local storage есть данные
     if (data) {
       this.tasks = JSON.parse(data);
     }
